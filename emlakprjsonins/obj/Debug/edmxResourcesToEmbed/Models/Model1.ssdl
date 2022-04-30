@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database001Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Emlak">
+    <Key>
+      <PropertyRef Name="emlakId" />
+    </Key>
+    <Property Name="emlakId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="emlakAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="emlakFiyat" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="emlakAciklama" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="emlakKatId" Type="int" Nullable="false" />
+    <Property Name="emlakUyeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Foto">
+    <Key>
+      <PropertyRef Name="fotoId" />
+    </Key>
+    <Property Name="fotoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fotolar" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="fotoEmlakId" Type="int" Nullable="false" />
+    <Property Name="fotoUyeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kategori">
+    <Key>
+      <PropertyRef Name="kategoriId" />
+    </Key>
+    <Property Name="kategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kategoriAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Uye">
+    <Key>
+      <PropertyRef Name="uyeId" />
+    </Key>
+    <Property Name="uyeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uyeAdSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="uyeEposta" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="uyeParola" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="uyeYetki" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Emlak_ToKategori">
+    <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategori">
+        <PropertyRef Name="kategoriId" />
+      </Principal>
+      <Dependent Role="Emlak">
+        <PropertyRef Name="emlakKatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emlak_ToUye">
+    <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uye">
+        <PropertyRef Name="uyeId" />
+      </Principal>
+      <Dependent Role="Emlak">
+        <PropertyRef Name="emlakUyeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Foto_ToEmlak">
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="1" />
+    <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emlak">
+        <PropertyRef Name="emlakId" />
+      </Principal>
+      <Dependent Role="Foto">
+        <PropertyRef Name="fotoEmlakId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Foto_ToUye">
+    <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+    <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uye">
+        <PropertyRef Name="uyeId" />
+      </Principal>
+      <Dependent Role="Foto">
+        <PropertyRef Name="fotoUyeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database001ModelStoreContainer">
+    <EntitySet Name="Emlak" EntityType="Self.Emlak" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Foto" EntityType="Self.Foto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Uye" EntityType="Self.Uye" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Emlak_ToKategori" Association="Self.FK_Emlak_ToKategori">
+      <End Role="Kategori" EntitySet="Kategori" />
+      <End Role="Emlak" EntitySet="Emlak" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emlak_ToUye" Association="Self.FK_Emlak_ToUye">
+      <End Role="Uye" EntitySet="Uye" />
+      <End Role="Emlak" EntitySet="Emlak" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Foto_ToEmlak" Association="Self.FK_Foto_ToEmlak">
+      <End Role="Emlak" EntitySet="Emlak" />
+      <End Role="Foto" EntitySet="Foto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Foto_ToUye" Association="Self.FK_Foto_ToUye">
+      <End Role="Uye" EntitySet="Uye" />
+      <End Role="Foto" EntitySet="Foto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

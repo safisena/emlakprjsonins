@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database001Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Emlak">
+          <Key>
+            <PropertyRef Name="emlakId" />
+          </Key>
+          <Property Name="emlakId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="emlakAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="emlakFiyat" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="emlakAciklama" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="emlakKatId" Type="int" Nullable="false" />
+          <Property Name="emlakUyeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Foto">
+          <Key>
+            <PropertyRef Name="fotoId" />
+          </Key>
+          <Property Name="fotoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fotolar" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fotoEmlakId" Type="int" Nullable="false" />
+          <Property Name="fotoUyeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kategoriAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uyeAdSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="uyeEposta" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="uyeParola" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="uyeYetki" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Emlak_ToKategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Emlak">
+              <PropertyRef Name="emlakKatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emlak_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Emlak">
+              <PropertyRef Name="emlakUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Foto_ToEmlak">
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="1" />
+          <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emlak">
+              <PropertyRef Name="emlakId" />
+            </Principal>
+            <Dependent Role="Foto">
+              <PropertyRef Name="fotoEmlakId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Foto_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Foto">
+              <PropertyRef Name="fotoUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database001ModelStoreContainer">
+          <EntitySet Name="Emlak" EntityType="Self.Emlak" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Foto" EntityType="Self.Foto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Emlak_ToKategori" Association="Self.FK_Emlak_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Emlak" EntitySet="Emlak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emlak_ToUye" Association="Self.FK_Emlak_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Emlak" EntitySet="Emlak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Foto_ToEmlak" Association="Self.FK_Foto_ToEmlak">
+            <End Role="Emlak" EntitySet="Emlak" />
+            <End Role="Foto" EntitySet="Foto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Foto_ToUye" Association="Self.FK_Foto_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Foto" EntitySet="Foto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Emlak">
+          <Key>
+            <PropertyRef Name="emlakId" />
+          </Key>
+          <Property Name="emlakId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="emlakAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="emlakFiyat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="emlakAciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="emlakKatId" Type="Int32" Nullable="false" />
+          <Property Name="emlakUyeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategori" Relationship="Self.FK_Emlak_ToKategori" FromRole="Emlak" ToRole="Kategori" />
+          <NavigationProperty Name="Uye" Relationship="Self.FK_Emlak_ToUye" FromRole="Emlak" ToRole="Uye" />
+          <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_ToEmlak" FromRole="Emlak" ToRole="Foto" />
+        </EntityType>
+        <EntityType Name="Foto">
+          <Key>
+            <PropertyRef Name="fotoId" />
+          </Key>
+          <Property Name="fotoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fotolar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fotoEmlakId" Type="Int32" Nullable="false" />
+          <Property Name="fotoUyeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Emlak" Relationship="Self.FK_Foto_ToEmlak" FromRole="Foto" ToRole="Emlak" />
+          <NavigationProperty Name="Uye" Relationship="Self.FK_Foto_ToUye" FromRole="Foto" ToRole="Uye" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kategoriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Emlak" Relationship="Self.FK_Emlak_ToKategori" FromRole="Kategori" ToRole="Emlak" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uyeAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="uyeEposta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="uyeParola" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="uyeYetki" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Emlak" Relationship="Self.FK_Emlak_ToUye" FromRole="Uye" ToRole="Emlak" />
+          <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_ToUye" FromRole="Uye" ToRole="Foto" />
+        </EntityType>
+        <Association Name="FK_Emlak_ToKategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Emlak">
+              <PropertyRef Name="emlakKatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emlak_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Emlak">
+              <PropertyRef Name="emlakUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Foto_ToEmlak">
+          <End Role="Emlak" Type="Self.Emlak" Multiplicity="1" />
+          <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emlak">
+              <PropertyRef Name="emlakId" />
+            </Principal>
+            <Dependent Role="Foto">
+              <PropertyRef Name="fotoEmlakId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Foto_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Foto">
+              <PropertyRef Name="fotoUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database001Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Emlak" EntityType="Self.Emlak" />
+          <EntitySet Name="Foto" EntityType="Self.Foto" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" />
+          <AssociationSet Name="FK_Emlak_ToKategori" Association="Self.FK_Emlak_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Emlak" EntitySet="Emlak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emlak_ToUye" Association="Self.FK_Emlak_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Emlak" EntitySet="Emlak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Foto_ToEmlak" Association="Self.FK_Foto_ToEmlak">
+            <End Role="Emlak" EntitySet="Emlak" />
+            <End Role="Foto" EntitySet="Foto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Foto_ToUye" Association="Self.FK_Foto_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Foto" EntitySet="Foto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database001ModelStoreContainer" CdmEntityContainer="Database001Entities">
+          <EntitySetMapping Name="Emlak">
+            <EntityTypeMapping TypeName="Database001Model.Emlak">
+              <MappingFragment StoreEntitySet="Emlak">
+                <ScalarProperty Name="emlakId" ColumnName="emlakId" />
+                <ScalarProperty Name="emlakAdi" ColumnName="emlakAdi" />
+                <ScalarProperty Name="emlakFiyat" ColumnName="emlakFiyat" />
+                <ScalarProperty Name="emlakAciklama" ColumnName="emlakAciklama" />
+                <ScalarProperty Name="emlakKatId" ColumnName="emlakKatId" />
+                <ScalarProperty Name="emlakUyeId" ColumnName="emlakUyeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Foto">
+            <EntityTypeMapping TypeName="Database001Model.Foto">
+              <MappingFragment StoreEntitySet="Foto">
+                <ScalarProperty Name="fotoId" ColumnName="fotoId" />
+                <ScalarProperty Name="fotolar" ColumnName="fotolar" />
+                <ScalarProperty Name="fotoEmlakId" ColumnName="fotoEmlakId" />
+                <ScalarProperty Name="fotoUyeId" ColumnName="fotoUyeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="Database001Model.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="kategoriId" ColumnName="kategoriId" />
+                <ScalarProperty Name="kategoriAd" ColumnName="kategoriAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uye">
+            <EntityTypeMapping TypeName="Database001Model.Uye">
+              <MappingFragment StoreEntitySet="Uye">
+                <ScalarProperty Name="uyeId" ColumnName="uyeId" />
+                <ScalarProperty Name="uyeAdSoyad" ColumnName="uyeAdSoyad" />
+                <ScalarProperty Name="uyeEposta" ColumnName="uyeEposta" />
+                <ScalarProperty Name="uyeParola" ColumnName="uyeParola" />
+                <ScalarProperty Name="uyeYetki" ColumnName="uyeYetki" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

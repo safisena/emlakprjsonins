@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database001Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Emlak">
+    <Key>
+      <PropertyRef Name="emlakId" />
+    </Key>
+    <Property Name="emlakId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emlakAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="emlakFiyat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="emlakAciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="emlakKatId" Type="Int32" Nullable="false" />
+    <Property Name="emlakUyeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Kategori" Relationship="Self.FK_Emlak_ToKategori" FromRole="Emlak" ToRole="Kategori" />
+    <NavigationProperty Name="Uye" Relationship="Self.FK_Emlak_ToUye" FromRole="Emlak" ToRole="Uye" />
+    <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_ToEmlak" FromRole="Emlak" ToRole="Foto" />
+  </EntityType>
+  <EntityType Name="Foto">
+    <Key>
+      <PropertyRef Name="fotoId" />
+    </Key>
+    <Property Name="fotoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fotolar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fotoEmlakId" Type="Int32" Nullable="false" />
+    <Property Name="fotoUyeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Emlak" Relationship="Self.FK_Foto_ToEmlak" FromRole="Foto" ToRole="Emlak" />
+    <NavigationProperty Name="Uye" Relationship="Self.FK_Foto_ToUye" FromRole="Foto" ToRole="Uye" />
+  </EntityType>
+  <EntityType Name="Kategori">
+    <Key>
+      <PropertyRef Name="kategoriId" />
+    </Key>
+    <Property Name="kategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kategoriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Emlak" Relationship="Self.FK_Emlak_ToKategori" FromRole="Kategori" ToRole="Emlak" />
+  </EntityType>
+  <EntityType Name="Uye">
+    <Key>
+      <PropertyRef Name="uyeId" />
+    </Key>
+    <Property Name="uyeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uyeAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="uyeEposta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="uyeParola" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="uyeYetki" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Emlak" Relationship="Self.FK_Emlak_ToUye" FromRole="Uye" ToRole="Emlak" />
+    <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_ToUye" FromRole="Uye" ToRole="Foto" />
+  </EntityType>
+  <Association Name="FK_Emlak_ToKategori">
+    <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategori">
+        <PropertyRef Name="kategoriId" />
+      </Principal>
+      <Dependent Role="Emlak">
+        <PropertyRef Name="emlakKatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emlak_ToUye">
+    <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uye">
+        <PropertyRef Name="uyeId" />
+      </Principal>
+      <Dependent Role="Emlak">
+        <PropertyRef Name="emlakUyeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Foto_ToEmlak">
+    <End Role="Emlak" Type="Self.Emlak" Multiplicity="1" />
+    <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emlak">
+        <PropertyRef Name="emlakId" />
+      </Principal>
+      <Dependent Role="Foto">
+        <PropertyRef Name="fotoEmlakId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Foto_ToUye">
+    <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+    <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uye">
+        <PropertyRef Name="uyeId" />
+      </Principal>
+      <Dependent Role="Foto">
+        <PropertyRef Name="fotoUyeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database001Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Emlak" EntityType="Self.Emlak" />
+    <EntitySet Name="Foto" EntityType="Self.Foto" />
+    <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+    <EntitySet Name="Uye" EntityType="Self.Uye" />
+    <AssociationSet Name="FK_Emlak_ToKategori" Association="Self.FK_Emlak_ToKategori">
+      <End Role="Kategori" EntitySet="Kategori" />
+      <End Role="Emlak" EntitySet="Emlak" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emlak_ToUye" Association="Self.FK_Emlak_ToUye">
+      <End Role="Uye" EntitySet="Uye" />
+      <End Role="Emlak" EntitySet="Emlak" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Foto_ToEmlak" Association="Self.FK_Foto_ToEmlak">
+      <End Role="Emlak" EntitySet="Emlak" />
+      <End Role="Foto" EntitySet="Foto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Foto_ToUye" Association="Self.FK_Foto_ToUye">
+      <End Role="Uye" EntitySet="Uye" />
+      <End Role="Foto" EntitySet="Foto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
